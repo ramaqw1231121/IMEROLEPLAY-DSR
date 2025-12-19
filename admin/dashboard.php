@@ -1,3 +1,29 @@
+<?php include '../db.php'; ?>
+
+<?php 
+$sql = "SELECT * FROM produk";
+$result =$connect->query($sql);
+
+$products = [];
+if ($result->num_rows > 0) {
+      $products = $result->fetch_all(MYSQLI_ASSOC);
+    //     $id = $row['ID'];
+    //     if (!isset($products[$id])) {
+    //         $products[$id] = [
+    //             'id' => $row['id'],
+    //             'namaproduk' => $row['namaproduk'],
+    //             'harga' => $row['harga'],
+    //             'kategori' => $row['kategori'],
+    //             'gambar' => []
+    //         ];
+    //     }
+    //     if (!empty($row['gambar'])) {
+    //         $products[$id]['gambar'][] = $row['gambar'];
+    //     }
+    }
+?>
+
+
 <!DOCTYPE html>
 <html>
 
@@ -30,7 +56,7 @@
   <link href="../css/responsive.css" rel="stylesheet" />
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 
 <body>
@@ -187,7 +213,135 @@
     <div class="container">
       <div class="heading_container">
         <h2>
-          Senjata&Ammo&Drugs
+          gun
+        </h2>
+        <p>
+          which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't an
+        </p>
+      </div>
+      <!-- Bootstrap -->
+       <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahproduk">
+          Tambah Produk
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="tambahproduk" tabindex="-1" aria-labelledby="tambahprodukLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">TAMBAH SENJATA</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form action="tambah.php" method="POST" enctype="multipart/form-data">
+                  <div class="input-group mb-3">
+                    <input type="file" class="form-control" name="images">
+                    <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                  </div>
+
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Nama Senjata" aria-label="namasenjata" name="namaproduk">
+                  </div>
+
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">$</span>
+                    <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="harga">
+
+                    <select class="form-select" aria-label="Default select example" name="kategori">
+                      <option selected>kategori</option>
+                      <option value="gun">gun</option>
+                      <option value="drugs">drugs</option>
+                      <option value="ammo">ammo</option>
+                      <option value="attachment">attachment</option>
+                    </select>
+                  </div>
+                  <button type="submit" name="submit" class="btn btn-primary">Save changes</button>
+
+                </form>
+              </div>
+              <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+        <!-- card 1 -->
+         <?php foreach ($products as $product): ?>
+          <?php if ($product['kategori'] === 'gun'): ?>
+        <div class="col-md-6 col-lg-4">
+          <div class="box">
+            <div class="img-box">
+              <!-- <img src="../images/.50.jpg" alt=""> -->
+              <img src="../images/<?= $product["gambar"];?>" alt="">
+            </div>
+            <div class="detail-box">
+              <h5>
+                <?= $product["namaproduk"];?>
+              </h5>
+              <div class="price_box">
+                <h6 class="price_heading">
+                  <span>$</span> <?= $product["harga"];?>
+                </h6>
+                <a href="hapus.php?<?= $product["id"];?>">HAPUS</a>
+
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editproduk">
+                  Edit Produk
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="editproduk" tabindex="-1" aria-labelledby="editprodukLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">EDIT SENJATA</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="">
+                          <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="inputGroupFile02">
+                            <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                          </div>
+
+                          <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Nama Senjata" aria-label="namasenjata">
+                          </div>
+
+                          <div class="input-group mb-3">
+                            <span class="input-group-text">$</span>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <span class="input-group-text">.00</span>
+                          </div>
+
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <?php endif; ?>
+        <?php endforeach; ?> 
+      
+        <!-- card1 -->
+
+       
+  </section>
+
+  <section class="furniture_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <h2>
+          Ammo
         </h2>
         <p>
           which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't an
@@ -245,19 +399,22 @@
             </div>
           </div>
         </div>
-      <div class="row">
+        <div class="row">
+        <!-- card 1 -->
+         <?php foreach ($products as $product): ?>
+          <?php if ($product['kategori'] === 'ammo'): ?>
         <div class="col-md-6 col-lg-4">
           <div class="box">
             <div class="img-box">
-              <img src="images/f1.png" alt="">
+              <img src="../images/<?= $product["gambar"];?>" alt="">
             </div>
             <div class="detail-box">
               <h5>
-                9MM
+                <?= $product["namaproduk"];?>
               </h5>
               <div class="price_box">
                 <h6 class="price_heading">
-                  <span>$</span> 2.400
+                  <span>$</span> <?= $product["harga"];?>
                 </h6>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editproduk">
                   Edit Produk
@@ -299,192 +456,274 @@
                 </div>
               </div>
             </div>
-          </div>S
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/f1.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h5>
-                9MM
-              </h5>
-              <div class="price_box">
-                <h6 class="price_heading">
-                  <span>$</span> 100.00
-                </h6>
-                <a href="">
-                  Buy Now
-                </a>
-              </div>
-            </div>
           </div>
         </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/f1.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h5>
-                9MM
-              </h5>
-              <div class="price_box">
-                <h6 class="price_heading">
-                  <span>$</span> 100.00
-                </h6>
-                <a href="">
-                  Buy Now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/f1.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h5>
-                .44 Magnum
-              </h5>
-              <div class="price_box">
-                <h6 class="price_heading">
-                  <span>$</span> 5.300
-                </h6>
-                <a href="">
-                  Buy Now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/f1.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h5>
-                .45 Vector
-              </h5>
-              <div class="price_box">
-                <h6 class="price_heading">
-                  <span>$</span> 5.200
-                </h6>
-                <a href="">
-                  Buy Now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/f2.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h5>
-                Double Bed Design
-              </h5>
-              <div class="price_box">
-                <h6 class="price_heading">
-                  <span>$</span> 200.00
-                </h6>
-                <a href="">
-                  Buy Now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/f3.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h5>
-                House Chair Design
-              </h5>
-              <div class="price_box">
-                <h6 class="price_heading">
-                  <span>$</span> 200.00
-                </h6>
-                <a href="">
-                  Buy Now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/f4.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h5>
-                brown Table Design
-              </h5>
-              <div class="price_box">
-                <h6 class="price_heading">
-                  <span>$</span> 100.00
-                </h6>
-                <a href="">
-                  Buy Now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/f5.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h5>
-                Blue Chair Design
-              </h5>
-              <div class="price_box">
-                <h6 class="price_heading">
-                  <span>$</span> 200.00
-                </h6>
-                <a href="">
-                  Buy Now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/f6.png" alt="">
-            </div>
-            <div class="detail-box">
-              <h5>
-                Brown Table Design
-              </h5>
-              <div class="price_box">
-                <h6 class="price_heading">
-                  <span>$</span> 200.00
-                </h6>
-                <a href="">
-                  Buy Now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+        <?php endif; ?>
+        <?php endforeach; ?> 
+      
+        <!-- card1 -->
+
+       
   </section>
 
+  <section class="furniture_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <h2>
+          Drugs
+        </h2>
+        <p>
+          which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't an
+        </p>
+      </div>
+      <!-- Bootstrap -->
+       <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahproduk">
+          Tambah Produk
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="tambahproduk" tabindex="-1" aria-labelledby="tambahprodukLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">TAMBAH SENJATA</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form action="">
+                  <div class="input-group mb-3">
+                    <input type="file" class="form-control" id="inputGroupFile02">
+                    <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                  </div>
+
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Nama Senjata" aria-label="namasenjata">
+                  </div>
+
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">$</span>
+                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                    <span class="input-group-text">.00</span>
+
+                    <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Kategori
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Senjata</a></li>
+                        <li><a class="dropdown-item" href="#">Drugs</a></li>
+                        <li><a class="dropdown-item" href="#">Ammo</a></li>
+                        <li><a class="dropdown-item" href="#">Attachment</a></li>
+                      </ul>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+        <!-- card 1 -->
+         <?php foreach ($products as $product): ?>
+          <?php if ($product['kategori'] === 'drugs'): ?>
+        <div class="col-md-6 col-lg-4">
+          <div class="box">
+            <div class="img-box">
+              <img src="../images/<?= $product["gambar"];?>" alt="">
+            </div>
+            <div class="detail-box">
+              <h5>
+                <?= $product["namaproduk"];?>
+              </h5>
+              <div class="price_box">
+                <h6 class="price_heading">
+                  <span>$</span> <?= $product["harga"];?>
+                </h6>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editproduk">
+                  Edit Produk
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="editproduk" tabindex="-1" aria-labelledby="editprodukLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">EDIT SENJATA</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="">
+                          <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="inputGroupFile02">
+                            <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                          </div>
+
+                          <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Nama Senjata" aria-label="namasenjata">
+                          </div>
+
+                          <div class="input-group mb-3">
+                            <span class="input-group-text">$</span>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <span class="input-group-text">.00</span>
+                          </div>
+
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <?php endif; ?>
+        <?php endforeach; ?> 
+      
+        <!-- card1 -->
+
+       
+  </section>
+
+  <section class="furniture_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <h2>
+          Attachment
+        </h2>
+        <p>
+          which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't an
+        </p>
+      </div>
+      <!-- Bootstrap -->
+       <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahproduk">
+          Tambah Produk
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="tambahproduk" tabindex="-1" aria-labelledby="tambahprodukLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">TAMBAH SENJATA</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form action="">
+                  <div class="input-group mb-3">
+                    <input type="file" class="form-control" id="inputGroupFile02">
+                    <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                  </div>
+
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Nama Senjata" aria-label="namasenjata">
+                  </div>
+
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">$</span>
+                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                    <span class="input-group-text">.00</span>
+
+                    <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Kategori
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Senjata</a></li>
+                        <li><a class="dropdown-item" href="#">Drugs</a></li>
+                        <li><a class="dropdown-item" href="#">Ammo</a></li>
+                        <li><a class="dropdown-item" href="#">Attachment</a></li>
+                      </ul>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+        <!-- card 1 -->
+         <?php foreach ($products as $product): ?>
+          <?php if ($product['kategori'] === 'attachment'): ?>
+        <div class="col-md-6 col-lg-4">
+          <div class="box">
+            <div class="img-box">
+              <img src="../images/<?= $product["gambar"];?>" alt="">
+            </div>
+            <div class="detail-box">
+              <h5>
+                <?= $product["namaproduk"];?>
+              </h5>
+              <div class="price_box">
+                <h6 class="price_heading">
+                  <span>$</span> <?= $product["harga"];?>
+                </h6>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editproduk">
+                  Edit Produk
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="editproduk" tabindex="-1" aria-labelledby="editprodukLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">EDIT gun</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="">
+                          <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="inputGroupFile02">
+                            <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                          </div>
+
+                          <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Nama Senjata" aria-label="namasenjata">
+                          </div>
+
+                          <div class="input-group mb-3">
+                            <span class="input-group-text">$</span>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <span class="input-group-text">.00</span>
+                          </div>
+
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <?php endif; ?>
+        <?php endforeach; ?> 
+        
+      
+        <!-- card1 -->
+
+       
+  </section>
   <!-- end furniture section -->
 
 
