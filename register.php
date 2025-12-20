@@ -25,7 +25,8 @@
   <!-- font awesome style -->
   <link href="css/font-awesome.min.css" rel="stylesheet" />
   <!-- Custom styles for this template -->
-  <link href="css/style.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/loginregister.css">
   <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
 

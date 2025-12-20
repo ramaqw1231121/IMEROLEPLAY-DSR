@@ -1,0 +1,43 @@
+
+/* login */
+.login {
+    text-align: center;
+    background-image: url("../images/dsr bareng.jpg");
+    background-size: cover;       /* gambar full menutupi elemen */
+    background-position: bottom;  /* gambar fokus di bagian bawah */
+    background-repeat: no-repeat; /* tidak mengulang gambar */
+    height: 100vh;                /* memenuhi 1 layar penuh */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;      /* form tetap di tengah */
+}
+.login form {
+  color: #f7fafa;
+}
+.login button{
+  padding: 10px 30px;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+
+/* register */
+body .register {
+    text-align: center;
+    background-image: url("../images/dsr bareng.jpg");
+    background-size: cover;       /* gambar full menutupi elemen */
+    background-position: bottom;  /* gambar fokus di bagian bawah */
+    background-repeat: no-repeat; /* tidak mengulang gambar */
+    height: 100vh;                /* memenuhi 1 layar penuh */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;      /* form tetap di tengah */
+}
+body .register form {
+  color: #f7fafa;
+}
+body .register button{
+  padding: 10px 30px;
+  margin: 10px;
+  border-radius: 5px;
+}
