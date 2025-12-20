@@ -1,20 +1,39 @@
-<?php include '../db.php'; ?>
-<?php if (isset($_GET['hapus'])) {
-    $id = $_GET['hapus'];
+<?php
+include '../db.php';
 
-    // Ambil semua gambar buku itu
-    $result = $connect->query("SELECT gambar FROM produk WHERE id = $id");
-    while ($row = $result->fetch_assoc()) {
-        if (!empty($row['images']) && file_exists("../images/" . $row['images'])) {
-            unlink("../images/" . $row['images']); // hapus file
+$id = $_GET['id'] ?? null;
+if (!$id) {
+    die("ID tidak ditemukan.");
+}
+
+$id = (int)$id; // pastikan integer
+
+// Ambil nama gambar
+$stmt = $connect->prepare("SELECT gambar FROM produk WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $gambar = $row['gambar'];
+
+    if (!empty($gambar)) {
+        $path = "../images/" . $gambar;
+
+        if (file_exists($path)) {
+            unlink($path); // hapus file gambar
         }
     }
-
-    // Hapus data buku (gambar ikut terhapus otomatis jika FK ON DELETE CASCADE)
-    $connect->query("DELETE FROM produk WHERE id = $id");
-
-    echo "<script>alert('senjata berhasil dihapus'); window.location='dashboard.php';</script>";
 }
-?>
+$stmt->close();
 
-<!-- CRUD (Create, Read, Update, Delete) -->
+// Hapus produk dari database
+$stmt = $connect->prepare("DELETE FROM produk WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$stmt->close();
+
+header("Location: dashboard.php");
+exit;
+?>

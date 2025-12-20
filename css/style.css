@@ -851,7 +851,7 @@ a:focus {
 /* login */
 .login {
     text-align: center;
-    background-image: url("/images/dsr bareng.jpg");
+    background-image: url("../images/dsr bareng.jpg");
     background-size: cover;       /* gambar full menutupi elemen */
     background-position: bottom;  /* gambar fokus di bagian bawah */
     background-repeat: no-repeat; /* tidak mengulang gambar */

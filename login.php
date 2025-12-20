@@ -86,13 +86,13 @@
     
 <!-- login -->
  <div class="login">
-    <form action="">
+    <form action="proseslogin.php" method="post">
         <label for="username">username</label><br>
-        <input type="text" name="username"><br>
+        <input type="text" name="username" placeholder="username"><br>
         <label for="password">password</label><br>
-        <input type="password" name="password"><br>
+        <input type="password" name="password" placeholder="password"><br>
         <a href="index.html">back</a>
-        <button>Login</button>
+        <button type="submit">Login</button>
     </form>
  </div>
  <!-- login -->

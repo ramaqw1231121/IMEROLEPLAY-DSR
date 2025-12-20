@@ -285,7 +285,7 @@ if ($result->num_rows > 0) {
                 <h6 class="price_heading">
                   <span>$</span> <?= $product["harga"];?>
                 </h6>
-                <a href="hapus.php?<?= $product["id"];?>">HAPUS</a>
+                <a href="hapus.php?id=<?= $product["id"];?>">HAPUS</a>
 
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editproduk">
                   Edit Produk
